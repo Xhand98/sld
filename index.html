@@ -192,12 +192,49 @@
   .row:hover{padding-left:6px}
   .agenda-note{margin-top:18px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
-  .members{list-style:none;display:flex;flex-direction:column;margin-top:clamp(24px,3.6vh,40px);border-bottom:1px solid var(--line-2)}
-  .members li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:clamp(12px,3vw,28px);align-items:baseline;padding:clamp(13px,2.2vh,19px) 0;border-top:1px solid var(--line-2)}
-  .members .mn{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);padding-top:6px}
-  .members .mname{font-family:var(--serif);font-size:clamp(20px,2.2vw,29px);line-height:1.08;letter-spacing:-.01em}
-  .members .mid{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted);white-space:nowrap;padding-top:6px}
-  .members-foot{margin-top:18px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .team{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(9px,1.2vw,14px);margin-top:clamp(20px,3.2vh,34px)}
+  .tcard{
+    appearance:none;background:transparent;border:1px solid var(--line-2);border-radius:2px;color:var(--ink);
+    padding:clamp(12px,1.35vw,17px);display:flex;flex-direction:column;gap:11px;min-width:0;text-align:left;
+    cursor:pointer;transition:border-color .25s,transform .3s cubic-bezier(.22,1,.36,1);
+  }
+  .tcard:hover,.tcard:focus-visible{border-color:var(--green);transform:translateY(-3px)}
+  .tcard:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+  .tcard:hover .tgo{color:var(--green);transform:translateX(3px)}
+  .thead{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .tgo{transition:transform .25s,color .25s}
+  .tnum{color:var(--ink-soft)}
+  .mock{
+    display:flex;flex-direction:column;justify-content:center;gap:5px;overflow:hidden;
+    min-height:clamp(58px,8.2vh,82px);padding:8px 9px;background:var(--track);border:1px solid var(--line)
+  }
+  .cl,.tl,.dl{display:block;height:3px;background:var(--line-2);border-radius:1px}
+  .mock-code .ghostline{background:var(--green);opacity:.55;position:relative}
+  .mock-code .caret{position:absolute;right:-1px;top:-3px;display:block;width:1.5px;height:9px;background:var(--green)}
+  .mock-tests{gap:6px}
+  .trow{display:flex;align-items:center;gap:7px}
+  .trow i{font-style:normal;font-size:8.5px;line-height:1}
+  .trow .ok{color:var(--green)}
+  .trow .bad{color:var(--rust)}
+  .trow .tl{flex:1}
+  .tbar{display:block;height:3px;background:var(--line-2);margin-top:2px}
+  .tbar b{display:block;height:100%;width:82%;background:var(--green)}
+  .mock-board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  .mock-board .col{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .mock-board .col i{display:block;height:9px;background:var(--line-2)}
+  .mock-board .col i.dim{opacity:.38}
+  .mock-pipe{flex-direction:row;align-items:center;gap:4px}
+  .mock-pipe .node{font-family:var(--mono);font-size:6.5px;letter-spacing:.04em;color:var(--muted);border:1px solid var(--line-2);padding:3px 4px;white-space:nowrap}
+  .mock-pipe .node.hot{color:var(--green);border-color:var(--green)}
+  .mock-pipe .link{display:block;flex:1;height:1px;background:var(--line-2);min-width:4px}
+  .mock-debug .dl.bug{background:var(--rust)}
+  .fixchip{font-family:var(--mono);font-size:6.5px;letter-spacing:.06em;color:var(--green);border:1px solid var(--green);padding:1px 3px;align-self:flex-start}
+  .tcard .ttl{font-family:var(--serif);font-size:clamp(15px,1.12vw,17.5px);line-height:1.16;letter-spacing:-.005em}
+  .tcard .tdesc{font-size:10.8px;line-height:1.45;color:var(--muted)}
+  .tfoot{margin-top:auto;border-top:1px solid var(--line);padding-top:9px;display:flex;flex-direction:column;gap:2px}
+  .tname{font-size:11px;font-weight:600;line-height:1.25}
+  .tid{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;color:var(--muted)}
+  .team-foot{margin-top:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
   .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.06fr);gap:clamp(30px,5vw,78px);margin-top:clamp(22px,3.6vh,40px);align-items:start}
   .cols > .left{padding-right:clamp(0px,1.4vw,18px)}
@@ -301,8 +338,18 @@
     .meta{font-size:9px;letter-spacing:.1em}
     .grow{grid-template-columns:58px 1fr}
     .crow{grid-template-columns:70px 1fr 30px}
-    .members li{grid-template-columns:30px 1fr;gap:10px}
-    .members .mid{grid-column:2;padding-top:0;margin-top:2px}
+  }
+  @media (max-width:1100px){
+    .team{grid-template-columns:repeat(3,minmax(0,1fr))}
+  }
+  @media (max-width:700px){
+    .team{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .tcard{padding:13px}
+    .tcard .ttl{font-size:15px}
+  }
+  @media (max-width:480px){
+    .team{grid-template-columns:1fr}
+    .mock{min-height:64px}
   }
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.001ms !important;animation-delay:0s !important;transition-duration:.001ms !important}
@@ -392,15 +439,74 @@
   <section class="slide" aria-label="Equipo">
     <div class="slide-inner">
       <p class="kicker" data-anim style="--d:.04s"><b>Equipo</b><span class="rule"></span><span class="en">Grupo de Hendrick</span></p>
-      <h2 data-anim style="--d:.1s">Cinco integrantes, <em>un mismo grupo</em></h2>
-      <ul class="members">
-        <li data-anim style="--d:.16s"><span class="mn">01</span><span class="mname">Hendrick Herrera</span><span class="mid">A00126460</span></li>
-        <li data-anim style="--d:.2s"><span class="mn">02</span><span class="mname">Sebastian De La Cruz Diaz</span><span class="mid">A00126047</span></li>
-        <li data-anim style="--d:.24s"><span class="mn">03</span><span class="mname">Juan Ramón Sabino Santana</span><span class="mid">A00125713</span></li>
-        <li data-anim style="--d:.28s"><span class="mn">04</span><span class="mname">Carlos Ethan Santos Feliz</span><span class="mid">A00126427</span></li>
-        <li data-anim style="--d:.32s"><span class="mn">05</span><span class="mname">Gabriel Leonardo del Rosario Cordero</span><span class="mid">A00126499</span></li>
-      </ul>
-      <p class="members-foot" data-anim style="--d:.4s">Sesión de grupo · Octubre 2026</p>
+      <h2 data-anim style="--d:.1s">Cinco frentes, <em>cinco responsables</em></h2>
+      <div class="team">
+
+        <button class="tcard" type="button" data-go="3" data-anim style="--d:.14s" aria-label="Tema 01, generación de código y asistencia: Hendrick Herrera">
+          <span class="thead"><span class="tnum">Tema 01</span><span class="tgo" aria-hidden="true">→</span></span>
+          <span class="mock mock-code" aria-hidden="true">
+            <span class="cl" style="width:70%"></span>
+            <span class="ghostline" style="width:88%"><span class="caret"></span></span>
+            <span class="cl" style="width:52%"></span>
+            <span class="cl" style="width:64%"></span>
+          </span>
+          <span class="ttl">Generación de código y asistencia</span>
+          <span class="tdesc">Autocompletado, funciones completas y tests sugeridos por el modelo.</span>
+          <span class="tfoot"><span class="tname">Hendrick Herrera</span><span class="tid">A00126460</span></span>
+        </button>
+
+        <button class="tcard" type="button" data-go="4" data-anim style="--d:.18s" aria-label="Tema 02, pruebas automatizadas: Gabriel Leonardo del Rosario Cordero">
+          <span class="thead"><span class="tnum">Tema 02</span><span class="tgo" aria-hidden="true">→</span></span>
+          <span class="mock mock-tests" aria-hidden="true">
+            <span class="trow"><i class="ok">✓</i><span class="tl"></span></span>
+            <span class="trow"><i class="bad">✕</i><span class="tl"></span></span>
+            <span class="trow"><i class="ok">✓</i><span class="tl"></span></span>
+            <span class="tbar"><b></b></span>
+          </span>
+          <span class="ttl">Pruebas automatizadas</span>
+          <span class="tdesc">Suites que se escriben, se ejecutan y se reparan con supervisión humana.</span>
+          <span class="tfoot"><span class="tname">Gabriel L. del Rosario Cordero</span><span class="tid">A00126499</span></span>
+        </button>
+
+        <button class="tcard" type="button" data-go="5" data-anim style="--d:.22s" aria-label="Tema 03, ingeniería de requisitos y gestión de proyectos: Juan Ramón Sabino Santana">
+          <span class="thead"><span class="tnum">Tema 03</span><span class="tgo" aria-hidden="true">→</span></span>
+          <span class="mock mock-board" aria-hidden="true">
+            <span class="col"><i></i><i></i></span>
+            <span class="col"><i></i><i class="dim"></i></span>
+            <span class="col"><i class="dim"></i></span>
+          </span>
+          <span class="ttl">Requisitos y gestión</span>
+          <span class="tdesc">Requisitos y criterios de aceptación traducidos a un plan verificable.</span>
+          <span class="tfoot"><span class="tname">Juan Ramón Sabino Santana</span><span class="tid">A00125713</span></span>
+        </button>
+
+        <button class="tcard" type="button" data-go="6" data-anim style="--d:.26s" aria-label="Tema 04, MLOps: Carlos Ethan Santos Feliz">
+          <span class="thead"><span class="tnum">Tema 04</span><span class="tgo" aria-hidden="true">→</span></span>
+          <span class="mock mock-pipe" aria-hidden="true">
+            <span class="node">data</span><span class="link"></span>
+            <span class="node">train</span><span class="link"></span>
+            <span class="node hot">serve</span>
+          </span>
+          <span class="ttl">MLOps</span>
+          <span class="tdesc">Datos, entrenamiento, despliegue y monitoreo en un solo ciclo.</span>
+          <span class="tfoot"><span class="tname">Carlos Ethan Santos Feliz</span><span class="tid">A00126427</span></span>
+        </button>
+
+        <button class="tcard" type="button" data-go="7" data-anim style="--d:.30s" aria-label="Tema 05, depuración automatizada: Sebastián De La Cruz Díaz">
+          <span class="thead"><span class="tnum">Tema 05</span><span class="tgo" aria-hidden="true">→</span></span>
+          <span class="mock mock-debug" aria-hidden="true">
+            <span class="cl" style="width:74%"></span>
+            <span class="dl bug" style="width:58%"></span>
+            <span class="fixchip">fix</span>
+            <span class="cl" style="width:46%"></span>
+          </span>
+          <span class="ttl">Depuración automatizada</span>
+          <span class="tdesc">Errores detectados, aislados y corregidos antes de producción.</span>
+          <span class="tfoot"><span class="tname">Sebastián De La Cruz Díaz</span><span class="tid">A00126047</span></span>
+        </button>
+
+      </div>
+      <p class="team-foot" data-anim style="--d:.36s">Cada tarjeta abre su tema · Sesión de grupo · Octubre 2026</p>
     </div>
   </section>
 
@@ -712,7 +818,6 @@
 
     const root = document.documentElement;
     const themeBtn = document.getElementById('themeToggle');
-    const mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
     function syncThemeBtn(){
       const dark = root.getAttribute('data-theme') === 'dark';
@@ -726,16 +831,6 @@
       try{ localStorage.setItem('sld-theme', next); }catch(e){}
       syncThemeBtn();
     });
-
-    if(mq && mq.addEventListener){
-      mq.addEventListener('change', e => {
-        let stored = null;
-        try{ stored = localStorage.getItem('sld-theme'); }catch(err){}
-        if(stored) return;
-        root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-        syncThemeBtn();
-      });
-    }
 
     syncThemeBtn();
   })();
