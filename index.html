@@ -27,6 +27,8 @@
     --rust:#E0895F;
     --ghost-stroke:rgba(239,234,224,.13);
     --track:rgba(239,234,224,.12);
+    --surface:rgba(239,234,224,.045);
+    --surface-2:rgba(239,234,224,.08);
     --grain-opacity:.05;
     --grain-blend:screen;
     --hdr:64px;
@@ -48,6 +50,8 @@
     --rust:#A5441D;
     --ghost-stroke:rgba(21,21,15,.16);
     --track:rgba(21,21,15,.1);
+    --surface:rgba(21,21,15,.035);
+    --surface-2:rgba(21,21,15,.065);
     --grain-opacity:.055;
     --grain-blend:multiply;
   }
@@ -208,7 +212,7 @@
     display:flex;flex-direction:column;justify-content:center;gap:5px;overflow:hidden;
     min-height:clamp(58px,8.2vh,82px);padding:8px 9px;background:var(--track);border:1px solid var(--line)
   }
-  .cl,.tl,.dl{display:block;height:3px;background:var(--line-2);border-radius:1px}
+  .mock .cl,.mock .tl,.mock .dl{display:block;height:3px;background:var(--line-2);border-radius:1px}
   .mock-code .ghostline{background:var(--green);opacity:.55;position:relative}
   .mock-code .caret{position:absolute;right:-1px;top:-3px;display:block;width:1.5px;height:9px;background:var(--green)}
   .mock-tests{gap:6px}
@@ -268,6 +272,31 @@
   .node{border:1px solid var(--line-2);padding:7px 11px;font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase}
   .node.fill{background:var(--ink);color:var(--paper);border-color:var(--ink)}
   .arw{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+  .editor{margin-top:clamp(16px,2.4vh,24px);border:1px solid var(--line-2);background:var(--surface)}
+  .editor-bar{display:flex;align-items:center;gap:9px;padding:8px 11px;border-bottom:1px solid var(--line)}
+  .dots{display:flex;gap:4px}
+  .dots i{display:block;width:6px;height:6px;border-radius:50%;background:var(--line-2)}
+  .editor-file{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--muted)}
+  .editor-badge{margin-left:auto;display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);border:1px solid currentColor;padding:2px 5px}
+  .editor-badge svg{width:8px;height:8px}
+  .editor-code{padding:9px 0 11px;font-family:var(--mono);font-size:10px;line-height:1.72;overflow-x:auto}
+  .code-row{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;padding:0 11px;white-space:pre}
+  .code-row.sug{grid-template-columns:26px minmax(0,1fr) auto;align-items:center;background:var(--surface-2);border-left:2px solid var(--green);margin:1px 0}
+  .code-row .ln{font-size:9px;color:var(--muted);opacity:.55;text-align:right;user-select:none}
+  .tok-k{color:var(--rust)}
+  .tok-s{color:var(--green)}
+  .tok-f{color:var(--ink)}
+  .tab-chip{font-family:var(--mono);font-size:8px;letter-spacing:.08em;color:var(--muted);border:1px solid var(--line-2);padding:1px 5px;margin-left:8px}
+
+  .loop{margin-top:clamp(14px,2vh,20px);max-width:520px}
+  .loop svg{display:block;width:100%;height:auto}
+  .loop text{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;fill:var(--muted)}
+  .loop .nd{fill:none;stroke:var(--line-2)}
+  .loop .nd-ia{fill:var(--surface-2)}
+  .loop .lbl-ia,.loop .lbl-tu{fill:var(--ink);font-size:11px;letter-spacing:.08em}
+  .loop .arc-a{fill:none;stroke:var(--green);stroke-width:1.2}
+  .loop .arc-b{fill:none;stroke:var(--rust);stroke-width:1.2}
 
   .pipe{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line-2)}
   .pipe > div{padding:10px 11px;border-left:1px solid var(--line)}
@@ -518,15 +547,25 @@
       <div class="cols">
         <div class="left">
           <p class="lede" data-anim style="--d:.16s">El autocompletado ya es el caso más maduro: no solo sugiere la siguiente línea, propone la función completa, el test y la explicación. La pregunta dejó de ser si funciona y pasó a ser <strong>cuánto del resultado podemos verificar</strong>.</p>
-          <div class="diagram" data-anim style="--d:.24s">
-            <p class="dlabel">De la sugerencia al agente</p>
-            <div class="chain">
-              <span class="node">Línea</span><span class="arw">→</span>
-              <span class="node">Función</span><span class="arw">→</span>
-              <span class="node">Plan multiarchivo</span>
+          <div class="editor" data-anim style="--d:.24s">
+            <div class="editor-bar">
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="editor-file">auth/session.ts</span>
+              <span class="editor-badge"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M5 0l1.2 3.8L10 5 6.2 6.2 5 10 3.8 6.2 0 5l3.8-1.2z" fill="currentColor"/></svg>IA</span>
             </div>
-            <p class="cap">Más autonomía significa más superficie que revisar, no menos.</p>
+            <div class="editor-code" role="img" aria-label="Editor de código con una sugerencia de IA para crear la sesión del usuario">
+              <div class="code-row"><span class="ln">1</span><span><span class="tok-k">import</span> { db } <span class="tok-k">from</span> <span class="tok-s">"./db"</span>;</span></div>
+              <div class="code-row"><span class="ln">2</span><span><span class="tok-k">import</span> { hash } <span class="tok-k">from</span> <span class="tok-s">"./crypto"</span>;</span></div>
+              <div class="code-row"><span class="ln">3</span><span> </span></div>
+              <div class="code-row"><span class="ln">4</span><span><span class="tok-k">export async function</span> <span class="tok-f">login</span>(email, password) {</span></div>
+              <div class="code-row"><span class="ln">5</span><span>  <span class="tok-k">const</span> user = <span class="tok-k">await</span> db.users.find(email);</span></div>
+              <div class="code-row"><span class="ln">6</span><span>  <span class="tok-k">if</span> (!user) <span class="tok-k">return</span> null;</span></div>
+              <div class="code-row"><span class="ln">7</span><span>  <span class="tok-k">const</span> ok = <span class="tok-k">await</span> hash.check(password, user.hash);</span></div>
+              <div class="code-row sug"><span class="ln">8</span><span>  <span class="tok-k">return</span> ok ? <span class="tok-k">await</span> db.sessions.create(user.id) : null;</span><span class="tab-chip">⇥ Tab</span></div>
+              <div class="code-row"><span class="ln">9</span><span>}</span></div>
+            </div>
           </div>
+          <p class="cap" data-anim style="--d:.3s">La sugerencia llega completa; aceptarla con Tab es un acto de confianza, no una verificación.</p>
           <div class="callout" data-anim style="--d:.34s">
             <p class="cl">Señal</p>
             <p>Mide tiempo hasta el primer PR y tasa de retrabajo, no el porcentaje de código generado.</p>
@@ -539,6 +578,21 @@
             <li data-anim style="--d:.32s"><span class="pn">03</span><div><h4>Revisión como cuello de botella</h4><p>Generar es barato; leer, entender y aceptar sigue costando tiempo humano.</p></div></li>
             <li data-anim style="--d:.38s"><span class="pn">04</span><div><h4>El riesgo se mueve</h4><p>Menos errores de sintaxis, más decisiones de diseño aceptadas sin discusión.</p></div></li>
           </ul>
+          <figure class="loop" data-anim style="--d:.44s">
+            <svg viewBox="0 0 400 116" aria-hidden="true">
+              <path class="arc-a" d="M90 46 Q200 14 310 46"/>
+              <path class="arc-a" d="M304 40l9 6-9 6"/>
+              <path class="arc-b" d="M310 70 Q200 102 90 70"/>
+              <path class="arc-b" d="M96 64l-9 6 9 6"/>
+              <text x="200" y="24" text-anchor="middle">sugiere</text>
+              <text x="200" y="102" text-anchor="middle">verifica</text>
+              <circle class="nd nd-ia" cx="64" cy="58" r="26"/>
+              <circle class="nd" cx="336" cy="58" r="26"/>
+              <text class="lbl-ia" x="64" y="62" text-anchor="middle">IA</text>
+              <text class="lbl-tu" x="336" y="62" text-anchor="middle">Tú</text>
+            </svg>
+            <figcaption class="cap">El ciclo real: la IA sugiere, tú verificas. Si el paso de verificación desaparece, el bucle gira hacia el riesgo.</figcaption>
+          </figure>
         </div>
       </div>
     </div>
